@@ -1,6 +1,7 @@
 const Post = require('../models/posts');
 const User = require('../models/users');
 const fs = require('fs');
+const { hashPassword } = require('../utils/helpers');
 
 module.exports = class API {
     /** POST SESSION */
@@ -124,6 +125,8 @@ module.exports = class API {
     // create user
     static async createUser(req, res) {
         const user = req.body;
+        // const password = hashPassword(req.params.password);
+        // console.log(password);
         const imagename = req.file.filename;
         user.image = imagename;
         try {
