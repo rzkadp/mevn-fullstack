@@ -7,6 +7,7 @@ const postSchema = new Schema({
       address: String,
       username: String,
       password: String,
+      phone: String,
       image: String,
       created: {
         type: Date,
@@ -25,13 +26,13 @@ postSchema.pre('save', async function(next) {
   }
 })
 
-postSchema.post('save', async function(next) {
-  try {
-    console.log("called after saving user");
-  } catch (err) {
-    next(err);
-  }
-})
+// postSchema.post('save', async function(next) {
+//   try {
+//     console.log("called after saving user");
+//   } catch (err) {
+//     next(err);
+//   }
+// })
 
 const Users = mongoose.model("Users", postSchema);
 module.exports = Users;

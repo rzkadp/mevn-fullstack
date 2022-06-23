@@ -8,7 +8,13 @@ module.exports = class API {
     static async fetchAllPosts(req, res) {
         try {
             const posts = await Post.find();
-            res.status(200).json(posts);
+            if(posts > 0) {
+                res.status(200).json(posts);
+            } else {
+                res.status(200).json({
+                    message: 'empty'
+                });
+            }
         } catch (err) {
             res.status(404).json({
                 message: err.message
@@ -21,7 +27,13 @@ module.exports = class API {
         const id = req.params.id;
         try {
             const posts = await Post.findById(id);
-            res.status(200).json(posts);
+            if(!posts) {
+                res.status(404).json({
+                    message: 'id not found'
+                });
+            } else {
+                res.status(200).json(posts);
+            }
         } catch (err) {
             res.status(404).json({
                 message: err.message
@@ -64,10 +76,16 @@ module.exports = class API {
         newPost.image = new_image;
 
         try {
-            await Post.findByIdAndUpdate(id, newPost);
-            res.status(200).json({
-                message: 'Post updated successfully'
-            });
+            const update = await Post.findByIdAndUpdate(id, newPost);
+            if(!update) {
+                res.status(404).json({
+                    message: 'id not found'
+                });
+            } else {
+                res.status(200).json({
+                    message: 'Post updated successfully'
+                });
+            }
         } catch (err) {
             res.status(404).json({ message: err.message});
         }
@@ -78,11 +96,17 @@ module.exports = class API {
         const id = req.params.id;
         try {
             const result = await Post.findByIdAndDelete(id);
-            if(result.image != ''){
-                try {
-                    fs.unlinkSync('./uploads/'+result.image);
-                } catch (err) {
-                    console.log(err);
+            if(!result) {
+                res.status(404).json({
+                    message: 'id not found'
+                });
+            } else {
+                if(result.image != ''){
+                    try {
+                        fs.unlinkSync('./uploads/'+result.image);
+                    } catch (err) {
+                        console.log(err);
+                    }
                 }
             }
             res.status(200).json({
@@ -103,7 +127,6 @@ module.exports = class API {
 
 
     
-    
     /** USERS SESSION */
     // fetch users
     static async fetchAllUsers(req, res) {
@@ -121,7 +144,13 @@ module.exports = class API {
         const id = req.params.id;
         try {
             const users = await User.findById(id);
-            res.status(200).json(users);
+            if(!users) {
+                res.status(404).json({
+                    message: 'id not found'
+                });
+            } else {
+                res.status(200).json(users);
+            }
         } catch (err) {
             res.status(404).json({
                 message: err.message
@@ -164,10 +193,16 @@ module.exports = class API {
         newUser.image = new_image;
 
         try {
-            await User.findByIdAndUpdate(id, newUser);
-            res.status(200).json({
-                message: 'User updated successfully'
-            });
+            const update = await User.findByIdAndUpdate(id, newUser);
+            if(!update) {
+                res.status(404).json({
+                    message: 'id not found'
+                });
+            } else {
+                res.status(200).json({
+                    message: 'User updated successfully'
+                });
+            }
         } catch (err) {
             res.status(404).json({ message: err.message});
         }
@@ -178,16 +213,22 @@ module.exports = class API {
         const id = req.params.id;
         try {
             const result = await User.findByIdAndDelete(id);
-            if(result.image != ''){
-                try {
-                    fs.unlinkSync('./uploads/'+result.image);
-                } catch (err) {
-                    console.log(err);
+            if(!result) {
+                res.status(404).json({
+                    message: "id not found"
+                });
+            } else {
+                if(result.image != ''){
+                    try {
+                        fs.unlinkSync('./uploads/'+result.image);
+                    } catch (err) {
+                        console.log(err);
+                    }
                 }
+                res.status(200).json({
+                    message: 'User deleted successfully'
+                });
             }
-            res.status(200).json({
-                message: 'User deleted successfully'
-            });
         } catch (err) {
             res.status(200).json({
                 message: err.message
