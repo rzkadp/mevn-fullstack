@@ -24,7 +24,6 @@ mongoose.connect(process.env.DB_URI, {
 
 // route prefix
 app.use("/api/", require("./routes/routes"));
-// app.use("/api/user", require("./routes/routes"));
 
 
 
