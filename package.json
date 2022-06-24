@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "client": "npm run start --prefix ./client",
   "scripts": {
+    "client": "npm run start --prefix ./client",
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
