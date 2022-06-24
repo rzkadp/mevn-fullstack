@@ -9,11 +9,11 @@ module.exports = class API {
         try {
             const posts = await Post.find();
             if(posts > 0) {
-                res.status(200).json(posts);
-            } else {
                 res.status(200).json({
                     message: 'empty'
                 });
+            } else {
+                res.status(200).json(posts);
             }
         } catch (err) {
             res.status(404).json({
@@ -132,7 +132,13 @@ module.exports = class API {
     static async fetchAllUsers(req, res) {
         try {
             const users = await User.find();
-            res.status(200).json(users);
+            if(users > 0) {
+                res.status(400),json({
+                    message: 'empty'
+                });
+            } else {
+                res.status(200).json(users);
+            }
         } catch (err) {
             res.status(404).json({
                 message: err.message
