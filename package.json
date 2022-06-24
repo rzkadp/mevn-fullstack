@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "client": "npm run start --prefix ./client",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js"
