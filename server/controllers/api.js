@@ -8,7 +8,7 @@ module.exports = class API {
     static async fetchAllPosts(req, res) {
         try {
             const posts = await Post.find();
-            if(posts > 0) {
+            if(posts < 0) {
                 res.status(200).json({
                     message: 'empty'
                 });
@@ -132,7 +132,7 @@ module.exports = class API {
     static async fetchAllUsers(req, res) {
         try {
             const users = await User.find();
-            if(users > 0) {
+            if(users < 0) {
                 res.status(400),json({
                     message: 'empty'
                 });
